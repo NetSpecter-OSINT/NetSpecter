@@ -2,7 +2,7 @@
 
 > Free browser-based OSINT & passive recon tool. No install, no API keys, no backend.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-netspecter-00ff41?style=flat-square)](https://wabbuwabbu.github.io/netspecter/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-netspecter-00ff41?style=flat-square)](https://wabbuwabbu.github.io/NetSpecter/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-00ff41?style=flat-square)](LICENSE)
 [![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-ff5f5f?style=flat-square)](https://ko-fi.com/wabbuwabbu)
 
@@ -19,7 +19,7 @@ No API keys required. Works on mobile.
 
 ## Live Demo
 
-**[wabbuwabbu.github.io/netspecter](https://wabbuwabbu.github.io/netspecter/)**
+**[wabbuwabbu.github.io/netspecter](https://wabbuwabbu.github.io/NetSpecter/)**
 
 
 ## Modules
