@@ -1,9 +1,26 @@
 # NetSpecter v2.1
 
-A passive OSINT and recon tool built as a static site for GitHub Pages.
-No backend, no API keys, no installs. Everything runs in the browser.
+> Free browser-based OSINT & passive recon tool. No install, no API keys, no backend.
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/wabbuwabbu)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-netspecter-00ff41?style=flat-square)](https://wabbuwabbu.github.io/netspecter/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-00ff41?style=flat-square)](LICENSE)
+[![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-ff5f5f?style=flat-square)](https://ko-fi.com/wabbuwabbu)
+
+![NetSpecter screenshot](og-image.png)
+
+## What is it?
+
+NetSpecter is a passive intelligence platform that runs entirely on the browser.
+Enter any domain or IP and run 11 recon modules: DNS enumeration, WHOIS,
+geolocation, SSL cert analysis, subdomain discovery, HTTP header audit, email security
+checks, port scanning, technology fingerprinting, and threat intelligence links.
+
+No API keys required. Works on mobile.
+
+## Live Demo
+
+**[wabbuwabbu.github.io/netspecter](https://wabbuwabbu.github.io/netspecter/)**
+
 
 ## Modules
 
@@ -20,6 +37,16 @@ No backend, no API keys, no installs. Everything runs in the browser.
 | FINGERPRINT | DNS-based tech stack inference - CDN, email provider, SaaS tools, hosting | Google DoH |
 | THREAT | Pre-built deep links to VirusTotal, Shodan, AbuseIPDB, URLScan, GreyNoise etc. | (links only) |
 | FULL SCAN | All 10 modules in sequence with progress bar | All of the above |
+
+## Features
+
+- 6 colour themes (green, blue, purple, pink, white, gray) persisted in localStorage
+- 5 animated backgrounds (radar, network topology, hex dump, circuit board, CRT noise)
+- Export results as .txt
+- Keyboard shortcuts (`?` to view)
+- Fully responsive - works on mobile
+- MIT licensed, fully open source
+
 
 ## Keyboard Shortcuts
 
@@ -38,16 +65,15 @@ HackerTarget free tier allows ~100 queries per day per IP.
 The DNS (Google DoH), GEO-IP (ipapi.co), and crt.sh modules are not subject to this limit.
 If you hit the HackerTarget limit, WHOIS, HTTP Headers, Subdomains (partial), and Port Scan will return a warning with fallback links.
 
-## Colour Themes
-
-Click any of the 6 coloured dots in the top-right to switch theme.
-Choice is saved to `localStorage` and persists across sessions.
-
-Available: **Green** (default) | **Blue** | **Purple** | **Pink** | **White** | **Gray**
-
 ## Legal
 
 This tool performs passive reconnaissance only.
 All queries use public APIs and DNS lookups.
 No active exploitation, injection, or unauthorised access is performed.
 Only scan domains and IPs you own or have explicit written permission to test.
+
+## Support
+
+If this saved you time, consider buying me a coffee.
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/wabbuwabbu)
