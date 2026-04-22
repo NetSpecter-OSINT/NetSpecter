@@ -612,18 +612,128 @@ body {
    RESPONSIVE
    ============================================================ */
 @media (max-width: 768px) {
-  #ascii-logo { font-size: 7px; }
-  #header-right { gap: 6px; }
-  #tabs { gap: 1px; }
-  .tab { padding: 3px 8px; font-size: 10px; }
-  #output { font-size: 11.5px; }
-  .out-key { min-width: 140px; }
-  #status-bar { gap: 0; }
-  .s-item { padding: 0 7px; }
+
+  /* ---- HEADER ---- */
+  #header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  #ascii-logo { display: none; }
+
+  /* Compact text logo replacement */
+  #header::before {
+    content: 'NetSpecter v2.1';
+    font-family: var(--font-vt);
+    font-size: 22px;
+    color: var(--accent);
+    text-shadow: var(--accent-text-shadow);
+    letter-spacing: 2px;
+  }
+
+  #header-right {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+  }
+
+  #header-meta { display: none; }
+
+  /* ---- BG + COLOUR SWITCHERS ---- */
+  #bg-switcher,
+  #theme-switcher {
+    gap: 6px;
+  }
+
+  .bg-btn {
+    padding: 2px 5px;
+    font-size: 9px;
+  }
+
+  /* ---- STATUS BAR ---- */
+  #status-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    font-size: 10px;
+  }
+
+  #status-bar::-webkit-scrollbar { display: none; }
+
+  #ticker-wrap { display: none; }
   #ext-ip-wrap { display: none; }
+
+  .s-item { padding: 0 8px; white-space: nowrap; }
+
+  /* ---- INPUT AREA ---- */
+  #input-area { padding: 8px 10px; gap: 6px; }
+
+  .prompt { display: none; }
+
+  #target-input {
+    font-size: 14px; /* prevents iOS auto-zoom on focus */
+    padding: 4px 0;
+  }
+
+  #target-input::placeholder {
+    content: 'domain or IP...';
+  }
+
+  #scan-btn  { padding: 4px 10px; font-size: 11px; }
+  #clear-btn { padding: 4px 8px;  font-size: 11px; }
+
+  /* ---- TABS - horizontal scroll, no wrap ---- */
+  #tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 2px;
+    padding-bottom: 2px;
+  }
+
+  #tabs::-webkit-scrollbar { display: none; }
+
+  .tab {
+    flex-shrink: 0;
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+
+  /* ---- OUTPUT ---- */
+  #output { font-size: 11px; }
+  .out-key { min-width: 110px; }
+
+  #panel-title { font-size: 10px; }
+  #copy-btn, #export-btn { font-size: 9px; padding: 2px 6px; }
+
+  /* ---- KO-FI BAR ---- */
+  #kofi-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 6px 10px;
+  }
+
+  #kofi-link {
+    width: 100%;
+    text-align: center;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  /* ---- FOOTER ---- */
+  #footer {
+    flex-direction: column;
+    gap: 2px;
+    font-size: 9px;
+  }
 }
 
-@media (max-width: 480px) {
-  #ascii-logo { display: none; }
-  #app { padding: 8px; gap: 5px; }
+/* Catch very small screens */
+@media (max-width: 390px) {
+  #app { padding: 6px 8px 6px; gap: 5px; }
+  .swatch { width: 12px; height: 12px; }
 }
