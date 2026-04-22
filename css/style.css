@@ -1,0 +1,629 @@
+/* style.css */
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:        #080808;
+  --bg-panel:  rgba(4, 10, 6, 0.94);
+  --warn:      #ffcc00;
+  --error:     #ff4444;
+  --success:   #00ff99;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-vt:   'VT323', monospace;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--accent-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--accent-border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  cursor: crosshair;
+  transition: background-image 0.3s;
+}
+
+/* ============================================================
+   OVERLAY (scanlines + vignette)
+   ============================================================ */
+#overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.07) 2px,
+      rgba(0, 0, 0, 0.07) 4px
+    ),
+    radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.72) 100%);
+}
+
+/* ============================================================
+   BACKGROUND CANVAS
+   ============================================================ */
+#bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.85;
+}
+
+/* ============================================================
+   BG SWITCHER
+   ============================================================ */
+#bg-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#bg-btns {
+  display: flex;
+  gap: 3px;
+}
+
+.bg-btn {
+  background: transparent;
+  border: 1px solid var(--accent-border);
+  color: var(--accent-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 7px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.15s;
+}
+
+.bg-btn:hover  { color: var(--accent); border-color: var(--accent); }
+.bg-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+/* ============================================================
+   APP LAYOUT
+   ============================================================ */
+#app {
+  position: relative;
+  z-index: 10;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px 8px;
+  gap: 7px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+#header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+#ascii-logo {
+  font-family: var(--font-vt);
+  font-size: 11px;
+  line-height: 1.18;
+  color: var(--accent);
+  text-shadow: var(--accent-text-shadow);
+  white-space: pre;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+#header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+#header-meta {
+  text-align: right;
+  font-size: 11px;
+  color: var(--accent-dim);
+  line-height: 1.9;
+}
+
+#header-meta span {
+  color: var(--accent);
+}
+
+/* ============================================================
+   THEME SWITCHER
+   ============================================================ */
+#theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-label {
+  font-size: 10px;
+  color: var(--accent-dim);
+  letter-spacing: 1px;
+}
+
+#swatches {
+  display: flex;
+  gap: 5px;
+}
+
+.swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: var(--swatch);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.swatch:hover {
+  transform: scale(1.25);
+}
+
+.swatch.active {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--swatch);
+}
+
+/* ============================================================
+   STATUS BAR
+   ============================================================ */
+#status-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-top: 1px solid var(--accent-border);
+  border-bottom: 1px solid var(--accent-border);
+  padding: 3px 0;
+  font-size: 11px;
+  color: var(--accent-dim);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.s-item {
+  white-space: nowrap;
+  padding: 0 12px;
+  border-right: 1px solid var(--accent-border);
+}
+
+.s-item span {
+  color: var(--accent);
+}
+
+#ticker-wrap {
+  flex: 1;
+  overflow: hidden;
+  padding: 0 12px;
+}
+
+#ticker {
+  display: inline-block;
+  white-space: nowrap;
+  animation: ticker-scroll 50s linear infinite;
+  color: var(--accent-dim);
+}
+
+@keyframes ticker-scroll {
+  from { transform: translateX(100vw); }
+  to   { transform: translateX(-100%); }
+}
+
+#ext-ip-wrap {
+  border-right: none;
+  border-left: 1px solid var(--accent-border);
+}
+
+/* ============================================================
+   INPUT AREA
+   ============================================================ */
+#input-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-panel);
+  border: 1px solid var(--accent-border);
+  padding: 6px 10px;
+  flex-shrink: 0;
+  transition: border-color 0.3s;
+}
+
+#input-area:focus-within {
+  border-color: var(--accent);
+}
+
+.prompt {
+  color: var(--accent);
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+#target-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  caret-color: var(--accent);
+}
+
+#target-input::placeholder {
+  color: rgba(255,255,255,0.12);
+}
+
+#scan-btn,
+#clear-btn {
+  background: transparent;
+  border: 1px solid var(--accent-border);
+  color: var(--accent-dim);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 3px 12px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+#scan-btn {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+#scan-btn:hover  { background: var(--accent); color: #000; }
+#clear-btn:hover { border-color: var(--accent-dim); color: var(--accent); }
+#scan-btn:active, #clear-btn:active { transform: scale(0.97); }
+
+/* ============================================================
+   TABS
+   ============================================================ */
+#tabs {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.tab {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 13px;
+  border: 1px solid var(--accent-border);
+  background: transparent;
+  color: var(--accent-dim);
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.15s;
+}
+
+.tab:hover  { color: var(--accent); border-color: var(--accent); }
+.tab.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+/* ============================================================
+   PANEL
+   ============================================================ */
+#panel-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--accent-border);
+  background: var(--bg-panel);
+  min-height: 0;
+  animation: panel-pulse 4s ease-in-out infinite;
+  transition: border-color 0.3s;
+}
+
+@keyframes panel-pulse {
+  0%, 100% { border-color: var(--accent-border); }
+  50%       { border-color: var(--accent-glow); }
+}
+
+#panel-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 12px;
+  border-bottom: 1px solid var(--accent-border);
+  font-size: 11px;
+  color: var(--accent-dim);
+  flex-shrink: 0;
+}
+
+#panel-title span { color: var(--accent); }
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+#progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--accent-border);
+  flex-shrink: 0;
+  background: var(--accent-faint);
+}
+
+#progress-wrap[hidden] { display: none; }
+
+#progress-label {
+  font-size: 11px;
+  color: var(--accent-dim);
+  white-space: nowrap;
+  min-width: 200px;
+}
+
+#progress-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--accent-border);
+  overflow: hidden;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+  transition: width 0.25s ease;
+}
+
+#progress-pct {
+  font-size: 11px;
+  color: var(--accent);
+  min-width: 36px;
+  text-align: right;
+}
+
+/* ============================================================
+   OUTPUT PANEL
+   ============================================================ */
+#output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+  line-height: 1.75;
+  font-size: 12.5px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-dim) transparent;
+}
+
+#output::-webkit-scrollbar       { width: 4px; }
+#output::-webkit-scrollbar-track { background: transparent; }
+#output::-webkit-scrollbar-thumb { background: var(--accent-dim); }
+
+/* ============================================================
+   OUTPUT ELEMENT CLASSES
+   ============================================================ */
+.out-line {
+  display: block;
+  margin: 1px 0;
+}
+
+.out-sep {
+  display: block;
+  height: 1px;
+  background: var(--accent-border);
+  margin: 8px 0;
+}
+
+.out-header {
+  display: block;
+  color: var(--accent);
+  text-shadow: var(--accent-text-shadow);
+  border-bottom: 1px solid var(--accent-border);
+  padding-bottom: 3px;
+  margin: 10px 0 5px;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.out-kv {
+  display: flex;
+  gap: 8px;
+}
+
+.out-key {
+  color: var(--accent-dim);
+  min-width: 190px;
+  flex-shrink: 0;
+}
+
+.out-val { color: var(--accent); }
+
+/* Colour modifiers */
+.c-bright  { color: #ffffff; text-shadow: 0 0 5px var(--accent-glow); }
+.c-dim     { color: var(--accent-dim); }
+.c-success { color: var(--success); }
+.c-warn    { color: var(--warn); }
+.c-error   { color: var(--error); }
+.c-hi      { color: #ffffff; }
+.c-good    { color: var(--success); }
+.c-bad     { color: var(--error); }
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0 6px;
+  font-size: 10px;
+  border: 1px solid;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.badge.good { border-color: var(--success); color: var(--success); }
+.badge.warn { border-color: var(--warn);    color: var(--warn); }
+.badge.bad  { border-color: var(--error);   color: var(--error); }
+
+/* Typing cursor */
+.typing::after {
+  content: '_';
+  animation: blink 0.7s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.blink { animation: blink 1s step-end infinite; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+#footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--accent-dim);
+  padding-top: 2px;
+}
+
+/* ============================================================
+   KO-FI BAR
+   ============================================================ */
+#kofi-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 10px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-faint);
+  font-size: 11px;
+}
+
+#kofi-msg {
+  color: var(--accent-dim);
+  transition: opacity 0.4s ease;
+  letter-spacing: 0.5px;
+}
+
+#kofi-link {
+  flex-shrink: 0;
+  color: #000;
+  background: var(--accent);
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 3px 12px;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+#kofi-link:hover { opacity: 0.8; }
+
+/* ============================================================
+   PANEL BUTTONS (copy / export)
+   ============================================================ */
+.panel-btn {
+  background: transparent;
+  border: 1px solid var(--accent-border);
+  color: var(--accent-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 8px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.15s;
+}
+
+.panel-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ============================================================
+   KEYBOARD SHORTCUTS PANEL
+   ============================================================ */
+#shortcuts-panel {
+  position: absolute;
+  bottom: 48px;
+  right: 16px;
+  z-index: 200;
+  background: var(--bg-panel);
+  border: 1px solid var(--accent);
+  padding: 12px 16px;
+  min-width: 260px;
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.sc-title {
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sc-close {
+  cursor: pointer;
+  color: var(--accent-dim);
+}
+
+.sc-close:hover { color: var(--accent); }
+
+.sc-grid {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 5px 12px;
+  font-size: 11px;
+}
+
+.sc-key {
+  color: var(--accent);
+  font-family: var(--font-mono);
+}
+
+.sc-val {
+  color: var(--accent-dim);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  #ascii-logo { font-size: 7px; }
+  #header-right { gap: 6px; }
+  #tabs { gap: 1px; }
+  .tab { padding: 3px 8px; font-size: 10px; }
+  #output { font-size: 11.5px; }
+  .out-key { min-width: 140px; }
+  #status-bar { gap: 0; }
+  .s-item { padding: 0 7px; }
+  #ext-ip-wrap { display: none; }
+}
+
+@media (max-width: 480px) {
+  #ascii-logo { display: none; }
+  #app { padding: 8px; gap: 5px; }
+}

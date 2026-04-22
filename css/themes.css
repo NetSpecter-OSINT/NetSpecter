@@ -1,0 +1,56 @@
+/* themes.css - accent colour definitions per theme */
+
+:root,
+html[data-theme="green"] {
+  --accent:       #00ff41;
+  --accent-dim:   #00882b;
+  --accent-faint: rgba(0, 255, 65, 0.04);
+  --accent-border:rgba(0, 255, 65, 0.22);
+  --accent-glow:  rgba(0, 255, 65, 0.45);
+  --accent-text-shadow: 0 0 6px rgba(0,255,65,0.7);
+}
+
+html[data-theme="blue"] {
+  --accent:       #00b4ff;
+  --accent-dim:   #0077bb;
+  --accent-faint: rgba(0, 180, 255, 0.04);
+  --accent-border:rgba(0, 180, 255, 0.22);
+  --accent-glow:  rgba(0, 180, 255, 0.45);
+  --accent-text-shadow: 0 0 6px rgba(0,180,255,0.7);
+}
+
+html[data-theme="purple"] {
+  --accent:       #bf5fff;
+  --accent-dim:   #8833cc;
+  --accent-faint: rgba(191, 95, 255, 0.04);
+  --accent-border:rgba(191, 95, 255, 0.22);
+  --accent-glow:  rgba(191, 95, 255, 0.45);
+  --accent-text-shadow: 0 0 6px rgba(191,95,255,0.7);
+}
+
+html[data-theme="pink"] {
+  --accent:       #ff5faa;
+  --accent-dim:   #cc3377;
+  --accent-faint: rgba(255, 95, 170, 0.04);
+  --accent-border:rgba(255, 95, 170, 0.22);
+  --accent-glow:  rgba(255, 95, 170, 0.45);
+  --accent-text-shadow: 0 0 6px rgba(255,95,170,0.7);
+}
+
+html[data-theme="white"] {
+  --accent:       #e8e8e8;
+  --accent-dim:   #aaaaaa;
+  --accent-faint: rgba(232, 232, 232, 0.04);
+  --accent-border:rgba(232, 232, 232, 0.2);
+  --accent-glow:  rgba(232, 232, 232, 0.35);
+  --accent-text-shadow: 0 0 4px rgba(232,232,232,0.5);
+}
+
+html[data-theme="gray"] {
+  --accent:       #888888;
+  --accent-dim:   #555555;
+  --accent-faint: rgba(136, 136, 136, 0.04);
+  --accent-border:rgba(136, 136, 136, 0.2);
+  --accent-glow:  rgba(136, 136, 136, 0.35);
+  --accent-text-shadow: 0 0 4px rgba(136,136,136,0.5);
+}
