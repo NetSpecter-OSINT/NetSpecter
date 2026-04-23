@@ -1,7 +1,6 @@
 // modules/headers.js
-import { hackerTargetQuery } from '../api.js';
 import { header, sep, kv, line, esc } from '../output.js';
-import { bumpHit } from '../state.js';
+import { bumpHit, bumpQuery } from '../state.js';
 
 const SEC_HEADERS = [
   'strict-transport-security',
@@ -18,10 +17,26 @@ const SEC_HEADERS = [
 export async function runHeaders(target) {
   header('HTTP HEADERS ANALYSIS :: ' + target.toUpperCase());
   sep();
-  line('<span class="c-dim">Fetching response headers via HackerTarget proxy...</span>');
+  line('<span class="c-dim">Fetching response headers via NetSpecter worker...</span>');
 
   try {
-    const raw = await hackerTargetQuery('httpheaders', target);
+    bumpQuery();
+    const proxyUrl = `https://netspecter-headers.shohen612.workers.dev/?target=${encodeURIComponent(target)}`;
+    const res = await fetch(proxyUrl);
+    const text = await res.text();
+    let headers;
+    try {
+        headers = JSON.parse(text);
+    } catch {
+        throw new Error(`Proxy returned invalid JSON: ${text.slice(0, 120)}`);
+    }
+    if (headers.error) {
+        throw new Error(headers.error);
+    }
+    // convert to the same flat string format the rest of the function expects
+    const raw = Object.entries(headers)
+        .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(', ') : v}`)
+        .join('\n');
 
     if (raw.includes('error') || raw.includes('API count')) {
       line('<span class="c-warn">API rate limit. Direct alternatives:</span>');
