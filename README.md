@@ -1,6 +1,6 @@
 # NetSpecter v2.1
 
-> Free browser-based OSINT & passive recon tool. No install, no API keys, no backend.
+> Free browser-based OSINT & passive recon tool. No need to install anyting, no API keys needed, no backend.
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-netspecter-00ff41?style=flat-square)](https://wabbuwabbu.github.io/NetSpecter/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-00ff41?style=flat-square)](LICENSE)
@@ -42,6 +42,7 @@ No API keys required. Works on mobile.
 
 - 6 colour themes (green, blue, purple, pink, white, gray) persisted in localStorage
 - 5 animated backgrounds (radar, network topology, hex dump, circuit board, CRT noise)
+- Instantly check your public IP
 - Export results as .txt
 - Keyboard shortcuts (`?` to view)
 - Fully responsive - works on mobile
