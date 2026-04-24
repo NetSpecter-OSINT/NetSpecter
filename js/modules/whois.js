@@ -102,6 +102,12 @@ export async function runWhois(target) {
         const url_  = vcard.find(v => v[0] === 'url')?.[3];
         const email = vcard.find(v => v[0] === 'email')?.[3];
         kv('  Registrar',    esc(name  || 'N/A'));
+        const HIGH_RISK_REGISTRARS = ['nicenic', 'gname', 'aceville', 'dominet', 'webnic', 'ownregistrar', 
+          'publicdomainregistry', 'pdr ltd', 'reg.ru', 'beget', 'namesilo', 'dynadot', 'internet.bs',];
+        const registrarLower = (name || '').toLowerCase();
+        if (HIGH_RISK_REGISTRARS.some(r => registrarLower.includes(r))) {
+          line(`<span class="c-warn">  ⚠ Registrar associated with elevated abuse rates.</span>`);
+        }
         if (url_)   kv('  Registrar URL',   esc(url_));
         if (email)  kv('  Abuse Contact',   esc(email));
       }
