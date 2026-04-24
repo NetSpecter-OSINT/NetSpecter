@@ -1,7 +1,7 @@
 // modules/subdomains.js
-import { bumpQuery }  from '../state.js';
+import { bumpQuery } from '../state.js';
 import { header, sep, kv, line, esc } from '../output.js';
-import { bumpHit }    from '../state.js';
+import { bumpHit }   from '../state.js';
 
 export async function runSubdomains(target) {
   header('SUBDOMAIN DISCOVERY :: ' + target.toUpperCase());
@@ -9,44 +9,12 @@ export async function runSubdomains(target) {
 
   const found = new Set();
 
-  // ---- Source 1: crt.sh ----
-  line('<span class="c-dim">Source [1/2]: Certificate Transparency (crt.sh)...</span>');
+  // ---- Source 1: Certspotter CT logs ----
+  line('<span class="c-dim">Source [1/2]: Certspotter CT logs...</span>');
   try {
     bumpQuery();
     const controller = new AbortController();
-    const timeout    = setTimeout(() => controller.abort(), 8000);
-    const res  = await fetch(
-      `https://crt.sh/?q=%25.${encodeURIComponent(target)}&output=json`,
-      { signal: controller.signal }
-    );
-    clearTimeout(timeout);
-
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const certs = await res.json();
-
-    if (Array.isArray(certs)) {
-      certs.forEach(c => {
-        (c.name_value || '').split('\n').forEach(n => {
-          n = n.trim().toLowerCase().replace(/^\*\./, '');
-          if (n.endsWith('.' + target) || n === target) found.add(n);
-        });
-        if (c.common_name) {
-          const cn = c.common_name.toLowerCase().replace(/^\*\./, '');
-          if (cn.endsWith('.' + target) || cn === target) found.add(cn);
-        }
-      });
-    }
-    line(`<span class="c-dim">crt.sh returned ${found.size} entries.</span>`);
-  } catch (e) {
-    line(`<span class="c-warn">crt.sh failed (${esc(e.message)}) - trying fallback...</span>`);
-  }
-
-  // ---- Source 2: Certspotter (no key, CORS-friendly) ----
-  line('<span class="c-dim">Source [2/2]: Certspotter (certspotter.com)...</span>');
-  try {
-    bumpQuery();
-    const controller = new AbortController();
-    const timeout    = setTimeout(() => controller.abort(), 8000);
+    const timeout    = setTimeout(() => controller.abort(), 10000);
     const res = await fetch(
       `https://api.certspotter.com/v1/issuances?domain=${encodeURIComponent(target)}&include_subdomains=true&expand=dns_names`,
       { signal: controller.signal }
@@ -64,17 +32,49 @@ export async function runSubdomains(target) {
         });
       });
     }
-    line(`<span class="c-dim">Certspotter complete. Combined total: ${found.size} unique.</span>`);
+    line(`<span class="c-dim">Certspotter returned ${found.size} entries.</span>`);
   } catch (e) {
     line(`<span class="c-warn">Certspotter failed: ${esc(e.message)}</span>`);
   }
+
+  // ---- Source 2: Google DNS TXT enumeration ----
+  // Probes common subdomain prefixes via DNS to supplement CT log data
+  line('<span class="c-dim">Source [2/2]: Common subdomain DNS probe...</span>');
+  const COMMON = [
+    'www', 'mail', 'email', 'smtp', 'pop', 'imap', 'ftp', 'sftp',
+    'api', 'dev', 'staging', 'test', 'beta', 'app', 'portal', 'admin',
+    'dashboard', 'blog', 'shop', 'store', 'cdn', 'media', 'static',
+    'assets', 'img', 'images', 'vpn', 'remote', 'mx', 'ns1', 'ns2',
+    'cpanel', 'whm', 'webmail', 'autodiscover', 'autoconfig',
+  ];
+
+  let dnsHits = 0;
+  await Promise.allSettled(
+    COMMON.map(async prefix => {
+      try {
+        const sub = `${prefix}.${target}`;
+        const res = await fetch(
+          `https://dns.google/resolve?name=${encodeURIComponent(sub)}&type=A`
+        );
+        const data = await res.json();
+        if (data.Answer && data.Answer.length > 0) {
+          if (!found.has(sub)) {
+            found.add(sub);
+            dnsHits++;
+          }
+        }
+      } catch { /* silently skip */ }
+    })
+  );
+
+  line(`<span class="c-dim">DNS probe found ${dnsHits} additional subdomains.</span>`);
 
   sep();
 
   if (found.size === 0) {
     line('<span class="c-warn">No subdomains found. This may mean:</span>');
     line('<span class="c-dim">  - Domain has no CT log entries (new or private)</span>');
-    line('<span class="c-dim">  - Both sources rate-limited (try again in a few minutes)</span>');
+    line('<span class="c-dim">  - Both sources returned no results</span>');
   } else {
     kv('  Total subdomains found', String(found.size), 'c-hi');
     sep();
