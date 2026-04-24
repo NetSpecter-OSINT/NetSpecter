@@ -73,6 +73,13 @@ export async function runWhois(target) {
       // Dates
       const events = d.events || [];
       const created   = events.find(e => e.eventAction === 'registration');
+      if (created?.eventDate) {
+        const days = Math.floor(
+          (new Date() - new Date(created.eventDate)) / (1000 * 60 * 60 * 24));
+        const ageClass = days < 30 ? 'c-bad' : days < 90 ? 'c-warn' : 'c-good';
+        const ageLabel = days < 30 ? 'VERY NEW - HIGH RISK' : days < 90 ? 'RECENT' : 'ESTABLISHED';
+        kv('  Domain Age', `${days} days (${ageLabel})`, ageClass);
+      }
       const updated   = events.find(e => e.eventAction === 'last changed');
       const expiry    = events.find(e => e.eventAction === 'expiration');
       kv('  Created',      esc(fmt(created?.eventDate)));
