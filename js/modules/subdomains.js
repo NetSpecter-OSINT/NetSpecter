@@ -1,7 +1,7 @@
 // modules/subdomains.js
-import { crtShLookup, hackerTargetQuery } from '../api.js';
+import { bumpQuery }  from '../state.js';
 import { header, sep, kv, line, esc } from '../output.js';
-import { bumpHit } from '../state.js';
+import { bumpHit }    from '../state.js';
 
 export async function runSubdomains(target) {
   header('SUBDOMAIN DISCOVERY :: ' + target.toUpperCase());
@@ -9,9 +9,21 @@ export async function runSubdomains(target) {
 
   const found = new Set();
 
-  line('<span class="c-dim">Source [1/2]: Certificate Transparency Logs (crt.sh)...</span>');
+  // ---- Source 1: crt.sh ----
+  line('<span class="c-dim">Source [1/2]: Certificate Transparency (crt.sh)...</span>');
   try {
-    const certs = await crtShLookup(target);
+    bumpQuery();
+    const controller = new AbortController();
+    const timeout    = setTimeout(() => controller.abort(), 8000);
+    const res  = await fetch(
+      `https://crt.sh/?q=%25.${encodeURIComponent(target)}&output=json`,
+      { signal: controller.signal }
+    );
+    clearTimeout(timeout);
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const certs = await res.json();
+
     if (Array.isArray(certs)) {
       certs.forEach(c => {
         (c.name_value || '').split('\n').forEach(n => {
@@ -24,28 +36,45 @@ export async function runSubdomains(target) {
         }
       });
     }
-    line(`<span class="c-dim">CT logs yielded ${found.size} unique entries.</span>`);
-  } catch {
-    line('<span class="c-warn">CT log query failed.</span>');
+    line(`<span class="c-dim">crt.sh returned ${found.size} entries.</span>`);
+  } catch (e) {
+    line(`<span class="c-warn">crt.sh failed (${esc(e.message)}) - trying fallback...</span>`);
   }
 
-  line('<span class="c-dim">Source [2/2]: HackerTarget hostsearch...</span>');
+  // ---- Source 2: Certspotter (no key, CORS-friendly) ----
+  line('<span class="c-dim">Source [2/2]: Certspotter (certspotter.com)...</span>');
   try {
-    const raw = await hackerTargetQuery('hostsearch', target);
-    if (!raw.includes('error')) {
-      raw.split('\n').forEach(l => {
-        const parts = l.split(',');
-        if (parts[0] && parts[0].includes('.')) {
-          found.add(parts[0].trim().toLowerCase());
-        }
+    bumpQuery();
+    const controller = new AbortController();
+    const timeout    = setTimeout(() => controller.abort(), 8000);
+    const res = await fetch(
+      `https://api.certspotter.com/v1/issuances?domain=${encodeURIComponent(target)}&include_subdomains=true&expand=dns_names`,
+      { signal: controller.signal }
+    );
+    clearTimeout(timeout);
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const issuances = await res.json();
+
+    if (Array.isArray(issuances)) {
+      issuances.forEach(cert => {
+        (cert.dns_names || []).forEach(n => {
+          n = n.toLowerCase().replace(/^\*\./, '');
+          if (n.endsWith('.' + target) || n === target) found.add(n);
+        });
       });
     }
-  } catch { /* silently ignore */ }
+    line(`<span class="c-dim">Certspotter complete. Combined total: ${found.size} unique.</span>`);
+  } catch (e) {
+    line(`<span class="c-warn">Certspotter failed: ${esc(e.message)}</span>`);
+  }
 
   sep();
 
   if (found.size === 0) {
-    line('<span class="c-warn">No subdomains discovered from available passive sources.</span>');
+    line('<span class="c-warn">No subdomains found. This may mean:</span>');
+    line('<span class="c-dim">  - Domain has no CT log entries (new or private)</span>');
+    line('<span class="c-dim">  - Both sources rate-limited (try again in a few minutes)</span>');
   } else {
     kv('  Total subdomains found', String(found.size), 'c-hi');
     sep();
