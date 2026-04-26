@@ -5,7 +5,7 @@ import { initBackground, setBg } from './background.js';
 import { state, resetCounters }  from './state.js';
 import { startClock, initTabs, initThemeSwitcher,
          setScanState, setTarget, setLastScan,
-         resolveExtIP }           from './ui.js';
+         resolveExtIP, initNavPickers }           from './ui.js';
 import { clearOutput, typeEffect,
          showProgress, hideProgress,
          line, sep, esc }         from './output.js';
@@ -143,6 +143,7 @@ if (kofiLink) {
 // ---- Bootstrap (no DOMContentLoaded wrapper - module scripts are already deferred) ----
 startClock();
 initThemeSwitcher();
+initNavPickers();
 initTabs();
 
 document.getElementById('scan-btn').addEventListener('click', runScan);

@@ -79,6 +79,65 @@ function applyTheme(theme) {
   });
 }
 
+// ---- Nav picker dropdowns (COLOUR + BG) ----
+export function initNavPickers() {
+  // desktop pickers
+  const pickers = document.querySelectorAll('.nav-picker');
+
+  pickers.forEach(picker => {
+    const trigger = picker.querySelector('.nav-picker-trigger');
+    trigger.addEventListener('click', e => {
+      e.stopPropagation();
+      const isOpen = picker.classList.contains('open');
+      closeAllPickers();
+      if (!isOpen) picker.classList.add('open');
+    });
+  });
+
+  // Close on outside click
+  document.addEventListener('click', closeAllPickers);
+
+  // Keep open when clicking inside a dropdown
+  document.querySelectorAll('.nav-picker-dropdown').forEach(dropdown => {
+    dropdown.addEventListener('click', e => e.stopPropagation());
+  });
+
+
+  // Hamburger / mobile menu
+  const hamburger = document.getElementById('hamburger');
+  const topNav    = document.getElementById('top-nav');
+
+  if (hamburger) {
+    hamburger.addEventListener('click', e => {
+      e.stopPropagation();
+      topNav.classList.toggle('menu-open');
+      hamburger.textContent = topNav.classList.contains('menu-open') ? '✕' : '☰';
+    });
+  }
+
+  // Close mobile menu on outside click
+  document.addEventListener('click', () => {
+    if (topNav.classList.contains('menu-open')) {
+      topNav.classList.remove('menu-open');
+      if (hamburger) hamburger.textContent = '☰';
+    }
+  });
+
+  // Close mobile menu after a swatch or bg-btn is tapped
+  document.getElementById('mobile-menu')?.addEventListener('click', e => {
+    e.stopPropagation();
+    const acted = e.target.closest('.swatch, .bg-btn');
+    if (acted) {
+      topNav.classList.remove('menu-open');
+      if (hamburger) hamburger.textContent = '☰';
+    }
+  });
+}
+
+function closeAllPickers() {
+  document.querySelectorAll('.nav-picker.open').forEach(p => p.classList.remove('open'));
+}
+
 // ---- Resolve external IP on load ----
 export async function resolveExtIP() {
   try {

@@ -50,14 +50,24 @@
                                       888                                               
                                       888                                               
                                       888</pre>
+      <button id="hamburger" aria-label="Open menu">☰</button>
       <div id="header-right">
         <div id="header-meta">
           SYS: <span id="clock">--:--:--</span><br>
           VER: <span>2.1.0</span><br>
           STATUS: <span id="sys-status" class="c-success">ONLINE</span>
         </div>
-        <div id="theme-switcher">
-          <span class="theme-label">COLOUR</span>
+      </div>
+    </header>
+    <nav id="top-nav">
+      <div id="top-nav-left">
+
+      <div class="nav-picker" id="colour-picker">
+        <button class="nav-picker-trigger" id="colour-trigger">
+          <span class="nav-picker-dot"></span>
+          <span class="nav-picker-label">COLOUR</span>
+        </button>
+        <div class="nav-picker-dropdown" id="colour-dropdown">
           <div id="swatches">
             <button class="swatch active" data-theme="green"  title="Green"  style="--swatch:#00ff41"></button>
             <button class="swatch"        data-theme="blue"   title="Blue"   style="--swatch:#00b4ff"></button>
@@ -67,9 +77,13 @@
             <button class="swatch"        data-theme="gray"   title="Gray"   style="--swatch:#888888"></button>
           </div>
         </div>
-        <div>
-          <div id="bg-switcher">
-          <span class="theme-label">BG</span>
+      </div>
+
+      <div class="nav-picker" id="bg-picker-nav">
+        <button class="nav-picker-trigger" id="bg-trigger">
+          <span class="nav-picker-label">BG</span>
+        </button>
+        <div class="nav-picker-dropdown" id="bg-dropdown">
           <div id="bg-btns">
             <button class="bg-btn active" data-bg="radar"   title="Radar">RADAR</button>
             <button class="bg-btn"        data-bg="network" title="Network">NET</button>
@@ -80,7 +94,41 @@
           </div>
         </div>
       </div>
-    </header>
+
+    </div>
+    <div id="top-nav-links">
+      <a class="top-nav-link" href="https://netspecter-osint.github.io/documentation/" target="_blank" rel="noopener">[ DOCS ]</a>
+    </div>
+    <!-- Start mobile hamburger menu -->    
+      <div id="mobile-menu">
+        <div class="mobile-row">
+          <span class="mobile-row-label">COLOUR</span>
+          <div class="mobile-swatches">
+            <button class="swatch" data-theme="green"  title="Green"  style="--swatch:#00ff41"></button>
+            <button class="swatch" data-theme="blue"   title="Blue"   style="--swatch:#00b4ff"></button>
+            <button class="swatch" data-theme="purple" title="Purple" style="--swatch:#bf5fff"></button>
+            <button class="swatch" data-theme="pink"   title="Pink"   style="--swatch:#ff5faa"></button>
+            <button class="swatch" data-theme="white"  title="White"  style="--swatch:#e8e8e8"></button>
+            <button class="swatch" data-theme="gray"   title="Gray"   style="--swatch:#888888"></button>
+          </div>
+        </div>
+        <div class="mobile-row">
+          <span class="mobile-row-label">BG</span>
+          <div class="mobile-bg-btns">
+            <button class="bg-btn" data-bg="radar">RADAR</button>
+            <button class="bg-btn" data-bg="network">NET</button>
+            <button class="bg-btn" data-bg="hexdump">HEX</button>
+            <button class="bg-btn" data-bg="circuit">PCB</button>
+            <button class="bg-btn" data-bg="crt">CRT</button>
+            <button class="bg-btn" data-bg="none">OFF</button>
+          </div>
+        </div>
+      <div class="mobile-row">
+        <a class="top-nav-link" href="https://netspecter-osint.github.io/documentation/" target="_blank" rel="noopener">[ DOCS ]</a>
+      </div>
+    </div>
+    <!-- end mobile -->
+  </nav>
 
     <div id="status-bar">
       <div class="s-item">TGT: <span id="current-target">NULL</span></div>
