@@ -249,13 +249,11 @@ export async function runPorts(target) {
   const shodanUrl = ip
     ? `https://www.shodan.io/host/${ip}`
     : `https://www.shodan.io/search?query=${target}`;
+
   line(
     '<span class="c-dim">// Full details: </span>' +
-    `<a href="${esc(shodanUrl)}" target="_blank" rel="noopener" style="color:inherit">Shodan</a>` +
-    '<span class="c-dim"> | </span>' +
-    `<a href="https://search.censys.io/hosts?q=${esc(target)}" target="_blank" rel="noopener" style="color:inherit">Censys</a>` +
-    '<span class="c-dim"> | </span>' +
-    `<a href="https://viz.greynoise.io/ip/${esc(ip || target)}" target="_blank" rel="noopener" style="color:inherit">GreyNoise</a>`
+    `<a href="${esc(shodanUrl)}" target="_blank" rel="noopener" style="color:inherit">Shodan</a>`
   );
+  
   sep();
 }
