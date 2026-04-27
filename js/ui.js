@@ -140,16 +140,15 @@ function closeAllPickers() {
 
 // ---- Resolve external IP on load ----
 export async function resolveExtIP() {
+  const el = document.getElementById('ext-ip');
+  if (!el) return;
   try {
-    const res  = await fetch('https://ipapi.co/json/');
+    const res  = await fetch('https://api.ipify.org?format=json');
     const data = await res.json();
-    const el   = document.getElementById('ext-ip');
-    if (el && data.ip) {
-      el.textContent = `${data.ip} (${data.country_code || '?'})`;
-    }
+    if (data.ip) { el.textContent = data.ip; return; }
+    throw new Error();
   } catch {
-    const el = document.getElementById('ext-ip');
-    if (el) el.textContent = 'N/A';
+    el.textContent = 'N/A';
   }
 }
 
