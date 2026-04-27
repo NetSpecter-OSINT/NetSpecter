@@ -133,8 +133,13 @@ export async function runWhois(target) {
       bumpHit(8);
     }
   } catch (e) {
-    line(`<span class="c-error">RDAP query failed: ${esc(e.message)}</span>`);
-    line(`<span class="c-dim">Try manually: </span><a href="https://www.rdap.net/domain/${esc(target)}" target="_blank" rel="noopener" style="color:inherit">rdap.net/domain/${esc(target)}</a>`);
+    const msg = e.message.split(' | ')[0];
+    line(`<span class="c-error">  RDAP query failed: ${esc(msg)}</span>`);
+    if (msg.includes('No RDAP support') || msg.includes('query failed')) {
+      line(`<span class="c-dim">  This TLD relies on legacy WHOIS (port 43) which cannot be queried from a browser.</span>`);
+    }
+    line(`<span class="c-dim">  Try manually:</span>`);
+    line(`  <a href="https://www.rdap.net/domain/${esc(target)}" target="_blank" rel="noopener" style="color:inherit">rdap.net/domain/${esc(target)}</a>`);
   }
 
   sep();
