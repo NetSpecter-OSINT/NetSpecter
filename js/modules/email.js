@@ -4,8 +4,38 @@ import { header, sep, kv, line, sleep, esc } from '../output.js';
 import { bumpHit } from '../state.js';
 
 const DKIM_SELECTORS = [
-  'default', 'google', 'mail', 'dkim', 'k1',
-  's1', 's2', 'selector1', 'selector2', 'protonmail',
+  // Google Workspace
+  'google', 'google2', 'googledomains',
+  // Microsoft 365 / Exchange Online
+  'selector1', 'selector2',
+  // Mailchimp / Mandrill
+  'k1', 'k2', 'k3', 'mandrill',
+  // SendGrid
+  's1', 's2', 'smtpapi', 'em', 'sg',
+  // Amazon SES
+  'amazonses',
+  // Mailgun
+  'mailo', 'pic', 'mta', 'mx',
+  // Proofpoint
+  'proofpoint', 'pp1', 'pp2',
+  // Mimecast
+  'mc1', 'mc2',
+  // HubSpot
+  'hubspot1', 'hubspot2', 'hs1', 'hs2',
+  // Postmark
+  'pm',
+  // Zendesk
+  'zendesk1', 'zendesk2',
+  // Salesforce
+  'sfdc', 'sf1',
+  // Zoho
+  'zoho', 'zmail',
+  // Fastmail
+  'fm1', 'fm2', 'fm3',
+  // ProtonMail
+  'protonmail',
+  // Generic / fallback
+  'default', 'mail', 'email', 'dkim', 'dkim1', 'dkim2', 'key1', 'key2', 'smtp',
 ];
 
 export async function runEmail(target) {
