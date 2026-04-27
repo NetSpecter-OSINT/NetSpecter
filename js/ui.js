@@ -152,3 +152,33 @@ export async function resolveExtIP() {
     if (el) el.textContent = 'N/A';
   }
 }
+
+// ---- Mode toggle (Hackerish / Fancypants) ----
+export function initModeToggle() {
+  const saved = localStorage.getItem('recon-mode');
+  if (saved === 'light') applyMode('light');
+
+  document.querySelectorAll('.mode-seg').forEach(btn => {
+    btn.addEventListener('click', () => {
+      applyMode(btn.dataset.mode);
+      localStorage.setItem('recon-mode', btn.dataset.mode);
+    });
+  });
+}
+
+function applyMode(mode) {
+  const html    = document.documentElement;
+  const isLight = mode === 'light';
+  isLight ? html.setAttribute('data-mode', 'light') : html.removeAttribute('data-mode');
+
+  // Sync all segmented controls (desktop + mobile)
+  document.querySelectorAll('.mode-seg').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mode === mode);
+  });
+
+  // Scan button text
+  const scanBtn = document.getElementById('scan-btn');
+  if (scanBtn && !scanBtn.dataset.scanning) {
+    scanBtn.textContent = isLight ? '' : '[ SCAN ]';
+  }
+}

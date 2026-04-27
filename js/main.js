@@ -5,7 +5,7 @@ import { initBackground, setBg } from './background.js';
 import { state, resetCounters }  from './state.js';
 import { startClock, initTabs, initThemeSwitcher,
          setScanState, setTarget, setLastScan,
-         resolveExtIP, initNavPickers }           from './ui.js';
+         resolveExtIP, initNavPickers, initModeToggle }           from './ui.js';
 import { clearOutput, typeEffect,
          showProgress, hideProgress,
          line, sep, esc }         from './output.js';
@@ -38,6 +38,8 @@ const MODULES = {
   full:        runFull,
 };
 
+const isLight = () => document.documentElement.getAttribute('data-mode') === 'light';
+
 function parseTarget() {
   return document.getElementById('target-input').value
     .trim().toLowerCase()
@@ -66,8 +68,10 @@ async function runScan() {
 
   state.scanning = true;
   const scanBtn  = document.getElementById('scan-btn');
-  scanBtn.textContent   = '[ SCANNING ]';
-  scanBtn.style.opacity = '0.6';
+
+  scanBtn.textContent      = isLight() ? 'SCANNING...' : '[ SCANNING ]';
+  scanBtn.dataset.scanning = 'true';
+  scanBtn.style.opacity    = '0.6';
 
   clearOutput();
   resetCounters();
@@ -98,9 +102,11 @@ async function runScan() {
     '<span class="c-dim">// Completed at ' + new Date().toTimeString().slice(0, 8) +
     ' | Queries: ' + state.queryCount + ' | Hits: ' + state.hitCount + '</span>'
   );
-  state.scanning        = false;
-  scanBtn.textContent   = '[ SCAN ]';
-  scanBtn.style.opacity = '1';
+
+  state.scanning           = false;
+  delete scanBtn.dataset.scanning;
+  scanBtn.textContent      = isLight() ? 'SCAN' : '[ SCAN ]';
+  scanBtn.style.opacity    = '1';
 }
 
 function handleClear() {
@@ -112,38 +118,11 @@ function handleClear() {
   line('<span class="c-dim">// Output cleared. Ready for next target.</span>');
 }
 
-// Rotating Ko-fi messages
-const KOFI_MSGS = [
-  '[🌐 DONATE OR I\'LL NMAP YOUR FRIDGE ]',
-  '[☕ BUY ME A COFFEE OR THE NEXT PORT STAYS CLOSED ]',
-  '[📡 SUPPORT THIS TOOL OR I\'M SCANNING YOUR SMART TV ]',
-  '[⚡ RUNS ON CAFFEINE AND EXISTENTIAL DREAD - KO-FI? ]',
-  '[🔍 IF THIS SAVED YOU TIME, BUY ME A COFFEE ]',
-  '[👻 FREE TO USE. YOUR SOUL ACCEPTED AS PAYMENT ]',
-  '[🪙 ENJOYING FREE RECON? THROW A COIN TO YOUR HACKER ]',
-  '[⚠️ WARNING: DEVELOPER RUNNING LOW ON COFFEE ]',
-  '[💣 THIS MESSAGE WILL SELF-DESTRUCT UNLESS YOU DONATE ]',
-  '[🔐 ROOT ACCESS TO MY COFFEE MACHINE REQUIRES DONATION ]',
-];
-
-const kofiLink = document.getElementById('kofi-link');
-if (kofiLink) {
-  let idx = 0;
-  kofiLink.textContent = KOFI_MSGS[Math.floor(Math.random() * KOFI_MSGS.length)];
-  setInterval(() => {
-    idx = (idx + 1) % KOFI_MSGS.length;
-    kofiLink.style.opacity = '0';
-    setTimeout(() => {
-      kofiLink.textContent  = KOFI_MSGS[idx];
-      kofiLink.style.opacity = '1';
-    }, 400);
-  }, 10000);
-}
-
-// ---- Bootstrap (no DOMContentLoaded wrapper - module scripts are already deferred) ----
+// ---- Bootstrap ----
 startClock();
 initThemeSwitcher();
 initNavPickers();
+initModeToggle();
 initTabs();
 
 document.getElementById('scan-btn').addEventListener('click', runScan);
@@ -157,7 +136,9 @@ document.getElementById('target-input').addEventListener('keydown', e => {
 
 initKeyboardShortcuts(runScan, handleClear);
 initBackground();
+
 document.querySelectorAll('.bg-btn').forEach(b => {
   b.addEventListener('click', () => setBg(b.dataset.bg));
 });
+
 resolveExtIP();

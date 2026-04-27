@@ -1,0 +1,331 @@
+/* light.css - Fancypants mode */
+
+html[data-mode="light"] {
+  --bg:                 #f5f4f0;
+  --bg-panel:           #ffffff;
+  --accent:             #2d6a4f;
+  --accent-dim:         #5a8a72;
+  --accent-faint:       rgba(45, 106, 79, 0.06);
+  --accent-border:      rgba(45, 106, 79, 0.18);
+  --accent-glow:        rgba(45, 106, 79, 0.1);
+  --accent-text-shadow: none;
+  --warn:               #9a6200;
+  --error:              #bf2d2d;
+  --success:            #2d6a4f;
+}
+
+/* ---- Base ---- */
+html[data-mode="light"] body {
+  background-color: var(--bg);
+  background-image: none;
+  color: #1e1e1c;
+  cursor: default;
+}
+html[data-mode="light"] #overlay   { display: none; }
+html[data-mode="light"] #bg-canvas { opacity: 0.04; }
+
+/* ---- Logo ---- */
+html[data-mode="light"] #ascii-logo {
+  color: var(--accent);
+  text-shadow: none;
+}
+html[data-mode="light"] #header-meta { color: var(--accent-dim); }
+
+html[data-mode="light"] #nav-logo {
+  text-shadow: none;
+  color: var(--accent);
+}
+
+/* ---- Top nav ---- */
+html[data-mode="light"] #top-nav {
+  border-color: var(--accent-border);
+}
+html[data-mode="light"] #colour-picker { display: none; }
+
+html[data-mode="light"] .nav-picker-trigger {
+  color: var(--accent-dim);
+  border-radius: 5px;
+}
+html[data-mode="light"] .nav-picker-trigger:hover,
+html[data-mode="light"] .nav-picker.open .nav-picker-trigger {
+  color: var(--accent);
+  border-color: var(--accent-border);
+  background: var(--accent-faint);
+}
+html[data-mode="light"] .nav-picker-dropdown {
+  background: var(--bg-panel);
+  border-color: var(--accent-border);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  border-radius: 6px;
+}
+html[data-mode="light"] .top-nav-link {
+  color: var(--accent-dim);
+  border-radius: 5px;
+}
+html[data-mode="light"] .top-nav-link:hover {
+  color: var(--accent);
+  border-color: var(--accent-border);
+  background: var(--accent-faint);
+}
+html[data-mode="light"] #mode-toggle {
+  font-size: 13px;
+  padding: 1px 8px;
+}
+
+/* ---- BG buttons in dropdown ---- */
+html[data-mode="light"] .bg-btn {
+  border-color: var(--accent-border);
+  color: var(--accent-dim);
+  border-radius: 4px;
+}
+html[data-mode="light"] .bg-btn:hover  { color: var(--accent); border-color: var(--accent); }
+html[data-mode="light"] .bg-btn.active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+/* ---- Status bar ---- */
+html[data-mode="light"] #status-bar  { border-color: var(--accent-border); }
+html[data-mode="light"] .s-item      { border-color: var(--accent-border); color: var(--accent-dim); }
+html[data-mode="light"] #ticker      { color: var(--accent-dim); }
+
+/* ---- Input area ---- */
+html[data-mode="light"] #input-area {
+  background: var(--bg-panel);
+  border-color: var(--accent-border);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+html[data-mode="light"] #input-area:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-faint);
+}
+html[data-mode="light"] #target-input {
+  color: #1e1e1c;
+  caret-color: var(--accent);
+}
+html[data-mode="light"] #target-input::placeholder { color: rgba(0,0,0,0.22); }
+
+/* ---- Primary button (SCAN) ---- */
+html[data-mode="light"] #scan-btn {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+html[data-mode="light"] #scan-btn:hover {
+  background: #245a40;
+  border-color: #245a40;
+  color: #ffffff;
+}
+html[data-mode="light"] #scan-btn:active { transform: scale(0.97); }
+
+/* ---- Secondary button (CLR) ---- */
+html[data-mode="light"] #clear-btn {
+  border-color: var(--accent-border);
+  color: var(--accent-dim);
+  border-radius: 6px;
+}
+html[data-mode="light"] #clear-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-faint);
+}
+
+/* ---- Panel buttons (COPY / EXPORT) ---- */
+html[data-mode="light"] .panel-btn {
+  border-color: var(--accent-border);
+  color: var(--accent-dim);
+  border-radius: 5px;
+}
+html[data-mode="light"] .panel-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-faint);
+}
+
+/* ---- Tabs ---- */
+html[data-mode="light"] .tab {
+  border-color: transparent;
+  color: var(--accent-dim);
+  border-radius: 5px;
+}
+html[data-mode="light"] .tab:hover {
+  color: var(--accent);
+  background: var(--accent-faint);
+  border-color: transparent;
+}
+html[data-mode="light"] .tab.active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+/* ---- Panel ---- */
+html[data-mode="light"] #panel-wrap {
+  background: var(--bg-panel);
+  border-color: var(--accent-border);
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  animation: none;
+}
+html[data-mode="light"] #panel-title {
+  border-color: var(--accent-border);
+  color: var(--accent-dim);
+  border-radius: 8px 8px 0 0;
+}
+html[data-mode="light"] #panel-title span { color: var(--accent); }
+
+/* ---- Progress ---- */
+html[data-mode="light"] #progress-wrap {
+  background: var(--accent-faint);
+  border-color: var(--accent-border);
+}
+html[data-mode="light"] #progress-track {
+  background: rgba(0,0,0,0.07);
+  border-color: var(--accent-border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+html[data-mode="light"] #progress-bar {
+  border-radius: 99px;
+  box-shadow: none;
+}
+
+/* ---- Output ---- */
+html[data-mode="light"] #output {
+  scrollbar-color: var(--accent-border) transparent;
+}
+html[data-mode="light"] .out-line  { color: #1e1e1c; }
+html[data-mode="light"] .out-sep   { background: var(--accent-border); }
+html[data-mode="light"] .out-header {
+  color: var(--accent);
+  text-shadow: none;
+  border-color: var(--accent-border);
+}
+html[data-mode="light"] .out-key   { color: var(--accent-dim); }
+html[data-mode="light"] .out-val   { color: #1e1e1c; }
+html[data-mode="light"] .c-dim     { color: #8a8a84; }
+html[data-mode="light"] .c-bright  { color: #1e1e1c; text-shadow: none; }
+html[data-mode="light"] .c-success { color: #2d6a4f; }
+html[data-mode="light"] .c-warn    { color: #9a6200; }
+html[data-mode="light"] .c-error   { color: #bf2d2d; }
+html[data-mode="light"] .c-good    { color: #2d6a4f; }
+html[data-mode="light"] .c-bad     { color: #bf2d2d; }
+html[data-mode="light"] .c-hi      { color: #1e1e1c; }
+
+/* Badges */
+html[data-mode="light"] .badge.good { border-color: #2d6a4f; color: #2d6a4f; }
+html[data-mode="light"] .badge.warn { border-color: #9a6200; color: #9a6200; }
+html[data-mode="light"] .badge.bad  { border-color: #bf2d2d; color: #bf2d2d; }
+
+/* ---- Remove brackets on links ---- */
+html[data-mode="light"] .top-nav-link::before,
+html[data-mode="light"] .top-nav-link::after { content: ''; }
+
+/* ---- Donate button ---- */
+html[data-mode="light"] .donate-trigger {
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border-color: var(--accent) !important;
+  border-radius: 6px !important;
+}
+html[data-mode="light"] .donate-dropdown {
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+html[data-mode="light"] .donate-mobile {
+  font-weight: bold;
+  color: var(--accent) !important;
+}
+
+/* ---- Breathing room ---- */
+html[data-mode="light"] #status-bar {
+  margin-top: 8px;
+}
+
+/* ---- Footer ---- */
+html[data-mode="light"] footer { color: var(--accent-dim); }
+
+/* ---- Shortcuts panel ---- */
+html[data-mode="light"] #shortcuts-panel {
+  background: var(--bg-panel);
+  border-color: var(--accent-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* ---- Mobile menu ---- */
+html[data-mode="light"] #hamburger {
+  color: var(--accent-dim);
+}
+html[data-mode="light"] #hamburger:hover {
+  color: var(--accent);
+  border-color: var(--accent-border);
+}
+html[data-mode="light"] #mobile-menu {
+  background: var(--bg-panel);
+  border-color: var(--accent-border);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  border-radius: 0 0 8px 8px;
+}
+html[data-mode="light"] .mobile-row       { border-color: var(--accent-border); }
+html[data-mode="light"] .mobile-row-label { color: var(--accent-dim); }
+html[data-mode="light"] .mobile-swatches .swatch.active {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--swatch);
+}
+html[data-mode="light"] .mobile-bg-btns .bg-btn {
+  border-radius: 4px;
+}
+html[data-mode="light"] .mobile-bg-btns .bg-btn.active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+/* ---- Toggle pill in light mode ---- */
+html[data-mode="light"] #mode-toggle-wrap,
+html[data-mode="light"] #mobile-mode-toggle-wrap {
+  background: var(--accent-faint);
+  border-color: var(--accent-border);
+}
+html[data-mode="light"] .mode-seg.active {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+/* ---- Hide BG picker in light mode ---- */
+html[data-mode="light"] #bg-picker-nav { display: none; }
+
+/* ---- Hide colour + BG rows in mobile menu ---- */
+html[data-mode="light"] #mobile-colour-row,
+html[data-mode="light"] #mobile-bg-row { display: none; }
+
+/* ---- Scan button - no brackets ---- */
+html[data-mode="light"] #scan-btn::before { content: 'SCAN'; }
+html[data-mode="light"] #scan-btn[data-scanning]::before { content: 'SCANNING...'; }
+html[data-mode="light"] #scan-btn {
+  font-size: 0;
+}
+html[data-mode="light"] #scan-btn::before {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+}
+
+/* ---- Donate FAB in light mode ---- */
+html[data-mode="light"] #donate-btn {
+  box-shadow: 0 2px 8px rgba(45,106,79,0.25);
+  color: #ffffff;
+}
+html[data-mode="light"] #donate-btn:hover {
+  box-shadow: 0 4px 16px rgba(45,106,79,0.3);
+}
+html[data-mode="light"] #donate-menu {
+  background: var(--bg-panel);
+  border-color: var(--accent-border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}

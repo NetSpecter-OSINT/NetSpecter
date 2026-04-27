@@ -4,104 +4,101 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NetSpecter - Free Browser OSINT & Recon Tool</title>
-
-  <!-- SEO -->
   <meta name="google-site-verification" content="tv-KIgtCqJjsIIUJWPUxnVSvnQ9tONfiFutrqnm8kjs"/>
   <meta name="description" content="NetSpecter is a free browser-based OSINT and passive recon tool. Run DNS lookups, WHOIS, SSL cert checks, subdomain discovery, port scans and tech fingerprinting instantly. No need to install, no API keys, no backend required.">
   <meta name="keywords" content="free osint tool, passive recon, dns enumeration, whois lookup, subdomain finder, ssl checker, port scanner, tech fingerprinting, network intelligence, browser security tool">
   <meta name="author" content="Oliver B.">
-
   <link rel="canonical" href="https://netspecter-osint.github.io/NetSpecter/">
-  
-  <!-- Open Graph -->
   <meta property="og:title" content="NetSpecter - Free Browser OSINT & Recon Tool">
   <meta property="og:description" content="DNS, WHOIS, SSL, subdomains, ports, tech fingerprinting - all free, all in your browser. No install, no API keys, no backend.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://netspecter-osint.github.io/NetSpecter/">
   <meta property="og:image" content="https://netspecter-osint.github.io/NetSpecter/og-image.png">
-
-  <!-- X -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="NetSpecter - Free Browser OSINT & Recon Tool">
   <meta name="twitter:description" content="Free passive recon in your browser. No install, no API keys, no backend. DNS, WHOIS, SSL, subdomains, ports and more.">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/themes.css">
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/light.css">
 </head>
 <body>
 
   <div id="overlay"></div>
   <canvas id="bg-canvas"></canvas>
-
   <div id="app">
 
-    <header>
-      <pre id="ascii-logo">
-888b    888          888    .d8888b.                             888                    
-8888b   888          888   d88P  Y88b                            888                    
-88888b  888          888   Y88b.                                 888                    
-888Y88b 888  .d88b.  888888 "Y888b.   88888b.   .d88b.   .d8888b 888888 .d88b.  888d888 
-888 Y88b888 d8P  Y8b 888       "Y88b. 888 "88b d8P  Y8b d88P"    888   d8P  Y8b 888P"   
-888  Y88888 88888888 888         "888 888  888 88888888 888      888   88888888 888     
-888   Y8888 Y8b.     Y88b. Y88b  d88P 888 d88P Y8b.     Y88b.    Y88b. Y8b.     888     
-888    Y888  "Y8888   "Y888 "Y8888P"  88888P"   "Y8888   "Y8888P  "Y888 "Y8888  888     
-                                      888                                               
-                                      888                                               
-                                      888</pre>
-      <button id="hamburger" aria-label="Open menu">☰</button>
-      <div id="header-right">
-        <div id="header-meta">
-          SYS: <span id="clock">--:--:--</span><br>
-          VER: <span>2.1.0</span><br>
-          STATUS: <span id="sys-status" class="c-success">ONLINE</span>
-        </div>
-      </div>
-    </header>
     <nav id="top-nav">
-      <div id="top-nav-left">
+      <span id="nav-logo">NetSpecter</span>
+      <button id="hamburger" aria-label="Open menu">☰</button>
 
-      <div class="nav-picker" id="colour-picker">
-        <button class="nav-picker-trigger" id="colour-trigger">
-          <span class="nav-picker-dot"></span>
-          <span class="nav-picker-label">COLOUR</span>
-        </button>
-        <div class="nav-picker-dropdown" id="colour-dropdown">
-          <div id="swatches">
-            <button class="swatch active" data-theme="green"  title="Green"  style="--swatch:#00ff41"></button>
-            <button class="swatch"        data-theme="blue"   title="Blue"   style="--swatch:#00b4ff"></button>
-            <button class="swatch"        data-theme="purple" title="Purple" style="--swatch:#bf5fff"></button>
-            <button class="swatch"        data-theme="pink"   title="Pink"   style="--swatch:#ff5faa"></button>
-            <button class="swatch"        data-theme="white"  title="White"  style="--swatch:#e8e8e8"></button>
-            <button class="swatch"        data-theme="gray"   title="Gray"   style="--swatch:#888888"></button>
+      <div id="top-nav-right">
+
+        <div class="nav-picker" id="colour-picker">
+          <button class="nav-picker-trigger" id="colour-trigger">
+            <span class="nav-picker-dot"></span>
+            <span class="nav-picker-label">COLOUR</span>
+          </button>
+          <div class="nav-picker-dropdown" id="colour-dropdown">
+            <div id="swatches">
+              <button class="swatch active" data-theme="green"  title="Green"  style="--swatch:#00ff41"></button>
+              <button class="swatch"        data-theme="blue"   title="Blue"   style="--swatch:#00b4ff"></button>
+              <button class="swatch"        data-theme="purple" title="Purple" style="--swatch:#bf5fff"></button>
+              <button class="swatch"        data-theme="pink"   title="Pink"   style="--swatch:#ff5faa"></button>
+              <button class="swatch"        data-theme="white"  title="White"  style="--swatch:#e8e8e8"></button>
+              <button class="swatch"        data-theme="gray"   title="Gray"   style="--swatch:#888888"></button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="nav-picker" id="bg-picker-nav">
-        <button class="nav-picker-trigger" id="bg-trigger">
-          <span class="nav-picker-label">BG</span>
-        </button>
-        <div class="nav-picker-dropdown" id="bg-dropdown">
-          <div id="bg-btns">
-            <button class="bg-btn active" data-bg="radar"   title="Radar">RADAR</button>
-            <button class="bg-btn"        data-bg="network" title="Network">NET</button>
-            <button class="bg-btn"        data-bg="hexdump" title="Hex Dump">HEX</button>
-            <button class="bg-btn"        data-bg="circuit" title="Circuit Board">PCB</button>
-            <button class="bg-btn"        data-bg="crt"     title="CRT Noise">CRT</button>
-            <button class="bg-btn"        data-bg="none"    title="None">OFF</button>
+        <div class="nav-picker" id="bg-picker-nav">
+          <button class="nav-picker-trigger" id="bg-trigger">
+            <span class="nav-picker-label">BG</span>
+          </button>
+          <div class="nav-picker-dropdown" id="bg-dropdown">
+            <div id="bg-btns">
+              <button class="bg-btn active" data-bg="radar"   title="Radar">RADAR</button>
+              <button class="bg-btn"        data-bg="network" title="Network">NET</button>
+              <button class="bg-btn"        data-bg="hexdump" title="Hex Dump">HEX</button>
+              <button class="bg-btn"        data-bg="circuit" title="Circuit Board">PCB</button>
+              <button class="bg-btn"        data-bg="crt"     title="CRT Noise">CRT</button>
+              <button class="bg-btn"        data-bg="none"    title="None">OFF</button>
+            </div>
           </div>
         </div>
+
+        <a class="top-nav-link" href="https://netspecter-osint.github.io/documentation/" target="_blank" rel="noopener">DOCS</a>
+        <div class="nav-picker" id="donate-picker">
+          <button class="nav-picker-trigger donate-trigger" id="donate-trigger">DONATE</button>
+          <div class="nav-picker-dropdown donate-dropdown" id="donate-dropdown">
+            <div class="donate-menu-label">SUPPORT THE PROJECT</div>
+              <a class="donate-link" href="https://ko-fi.com/wabbuwabbu" target="_blank" rel="noopener"><span>🧋</span> Ko-fi
+              </a>
+          </div>
+        </div>
+        <div id="mode-toggle-wrap">
+          <button class="mode-seg active" data-mode="dark">HACKERISH</button>
+          <button class="mode-seg"        data-mode="light">FANCYPANTS</button>
+        </div>
+
       </div>
 
-    </div>
-    <div id="top-nav-links">
-      <a class="top-nav-link" href="https://netspecter-osint.github.io/documentation/" target="_blank" rel="noopener">[ DOCS ]</a>
-    </div>
-    <!-- Start mobile hamburger menu -->    
+      <!-- Mobile menu -->
       <div id="mobile-menu">
         <div class="mobile-row">
+          <div id="mobile-mode-toggle-wrap">
+            <button class="mode-seg active" data-mode="dark">DARK</button>
+            <button class="mode-seg"        data-mode="light">LIGHT</button>
+          </div>
+        </div>
+        <div class="mobile-row">
+          <a class="top-nav-link" href="https://netspecter-osint.github.io/documentation/" target="_blank" rel="noopener">DOCS</a>
+        </div>
+        <div class="mobile-row">
+          <a class="top-nav-link donate-mobile" href="https://ko-fi.com/wabbuwabbu" target="_blank" rel="noopener">DONATE</a>
+        </div>
+        <div class="mobile-row" id="mobile-colour-row">
           <span class="mobile-row-label">COLOUR</span>
           <div class="mobile-swatches">
             <button class="swatch" data-theme="green"  title="Green"  style="--swatch:#00ff41"></button>
@@ -112,7 +109,7 @@
             <button class="swatch" data-theme="gray"   title="Gray"   style="--swatch:#888888"></button>
           </div>
         </div>
-        <div class="mobile-row">
+        <div class="mobile-row" id="mobile-bg-row">
           <span class="mobile-row-label">BG</span>
           <div class="mobile-bg-btns">
             <button class="bg-btn" data-bg="radar">RADAR</button>
@@ -123,19 +120,19 @@
             <button class="bg-btn" data-bg="none">OFF</button>
           </div>
         </div>
-      <div class="mobile-row">
-        <a class="top-nav-link" href="https://netspecter-osint.github.io/documentation/" target="_blank" rel="noopener">[ DOCS ]</a>
       </div>
-    </div>
-    <!-- end mobile -->
-  </nav>
+      <!-- end mobile menu -->
+    </nav>
 
     <div id="status-bar">
       <div class="s-item">TGT: <span id="current-target">NULL</span></div>
       <div class="s-item">LAST: <span id="last-scan">NONE</span></div>
       <div class="s-item">HITS: <span id="hit-count">0</span></div>
       <div class="s-item">QUERIES: <span id="query-count">0</span></div>
-      <div id="ticker-wrap"><span id="ticker">INITIALISING NETSPECTER... DNS MODULE LOADED... SSL MODULE LOADED... HEADERS MODULE LOADED... WHOIS MODULE LINKED... OSINT PROBES READY... CERT_TRANSPARENCY INDEXED... GEO-IP ENGINE ARMED... PORT SCANNER ARMED... FINGERPRINT ENGINE READY... THREAT INTEL FEEDS ACTIVE... AWAITING TARGET...</span></div>
+      <div id="status-spacer"></div>
+      <div class="s-item">SYS: <span id="clock">--:--:--</span></div>
+      <div class="s-item">VER: <span>2.1.1</span></div>
+      <div class="s-item">STATUS: <span id="sys-status" class="c-success">ONLINE</span></div>
       <div class="s-item" id="ext-ip-wrap">EXT IP: <span id="ext-ip">...</span></div>
     </div>
 
@@ -184,13 +181,6 @@
       </div>
     </div>
 
-    <div id="kofi-bar">
-      <span id="kofi-msg">Click there 👉</span>
-      <a id="kofi-link" href="https://ko-fi.com/wabbuwabbu" target="_blank" rel="noopener">
-        ☕ BUY ME A COFFEE
-      </a>
-    </div>
-
     <footer>
       <span>NetSpecter v2.1 :: PASSIVE INTELLIGENCE PLATFORM</span>
       <span>PRESS <span style="color:var(--accent)">'?'</span> FOR SHORTCUTS</span>
@@ -200,13 +190,12 @@
   </div>
 
   <script>
-  console.log('DOM ready, elements:', {
-    scanBtn:  !!document.getElementById('scan-btn'),
-    clock:    !!document.getElementById('clock'),
-    tabs:     document.querySelectorAll('.tab').length,
-  });
-</script>
-
-<script type="module" src="./js/main.js"></script>
+    console.log('DOM ready, elements:', {
+      scanBtn: !!document.getElementById('scan-btn'),
+      clock:   !!document.getElementById('clock'),
+      tabs:    document.querySelectorAll('.tab').length,
+    });
+  </script>
+  <script type="module" src="./js/main.js"></script>
 </body>
 </html>
