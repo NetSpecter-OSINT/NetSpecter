@@ -22,6 +22,14 @@
   <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon-16x16.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      var t = localStorage.getItem('recon-theme') || 'green';
+      var m = localStorage.getItem('recon-mode');
+      document.documentElement.setAttribute('data-theme', t);
+      if (m === 'light') document.documentElement.setAttribute('data-mode', 'light');}
+    )();
+  </script>
   <link rel="stylesheet" href="./css/themes.css">
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/light.css">

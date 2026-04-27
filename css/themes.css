@@ -1,6 +1,5 @@
 /* themes.css - accent colour definitions per theme */
 
-:root,
 html[data-theme="green"] {
   --accent:       #00ff41;
   --accent-dim:   #00882b;
