@@ -426,24 +426,24 @@ export function setBg(name) {
 }
 
 export function initBackground() {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobile) return;
+
   resize();
   window.addEventListener('resize', () => {
     resize();
-    // Restart current bg on resize so it fills correctly
     if (currentBg) setBg(currentBg);
     else if (currentBg === null) {
       const saved = localStorage.getItem('netspecter-bg') || 'radar';
       setBg(saved);
     }
   });
-
-  // Theme changes should restart the current bg with the new accent colour
   document.querySelectorAll('.swatch').forEach(s => {
     s.addEventListener('click', () => {
       setTimeout(() => { if (currentBg) setBg(currentBg); }, 50);
     });
   });
-
   const saved = localStorage.getItem('netspecter-bg') || 'radar';
   setBg(saved);
+
 }

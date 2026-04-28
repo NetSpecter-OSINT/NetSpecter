@@ -4,7 +4,7 @@ html[data-mode="light"] {
   --bg:                 #f5f4f0;
   --bg-panel:           #ffffff;
   --accent:             #2d6a4f;
-  --accent-dim:         #5a8a72;
+  --accent-dim:         #3d6b52;
   --accent-faint:       rgba(45, 106, 79, 0.06);
   --accent-border:      rgba(45, 106, 79, 0.18);
   --accent-glow:        rgba(45, 106, 79, 0.1);
@@ -207,7 +207,7 @@ html[data-mode="light"] .out-header {
 }
 html[data-mode="light"] .out-key   { color: var(--accent-dim); }
 html[data-mode="light"] .out-val   { color: #1e1e1c; }
-html[data-mode="light"] .c-dim     { color: #8a8a84; }
+html[data-mode="light"] .c-dim     { color: #6b6b66; }
 html[data-mode="light"] .c-bright  { color: #1e1e1c; text-shadow: none; }
 html[data-mode="light"] .c-success { color: #2d6a4f; }
 html[data-mode="light"] .c-warn    { color: #9a6200; }

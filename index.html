@@ -56,6 +56,7 @@
   <div id="overlay"></div>
   <canvas id="bg-canvas"></canvas>
   <div id="app">
+
     <h1 class="sr-only">NetSpecter — Free Browser-Based OSINT & Domain Recon Tool</h1>
 
     <nav id="top-nav">
@@ -153,62 +154,66 @@
       <!-- end mobile menu -->
     </nav>
 
-    <div id="status-bar">
-      <div class="s-item">TGT: <span id="current-target">NULL</span></div>
-      <div class="s-item">LAST: <span id="last-scan">NONE</span></div>
-      <div class="s-item">HITS: <span id="hit-count">0</span></div>
-      <div class="s-item">QUERIES: <span id="query-count">0</span></div>
-      <div id="status-spacer"></div>
-      <div class="s-item">SYS: <span id="clock">--:--:--</span></div>
-      <div class="s-item">VER: <span>2.1.1</span></div>
-      <div class="s-item">STATUS: <span id="sys-status" class="c-success">ONLINE</span></div>
-      <div class="s-item" id="ext-ip-wrap">EXT IP: <span id="ext-ip">...</span></div>
-    </div>
+    <main>
 
-    <div id="input-area">
-      <span class="prompt">root@netspecter:~$&nbsp;</span>
-      <input id="target-input" type="text" placeholder="enter target domain or IP..." autocomplete="off" spellcheck="false">
-      <button id="clear-btn" title="Clear output">CLR</button>
-      <button id="scan-btn">[ SCAN ]</button>
-    </div>
+      <div id="status-bar">
+        <div class="s-item">TGT: <span id="current-target">NULL</span></div>
+        <div class="s-item">LAST: <span id="last-scan">NONE</span></div>
+        <div class="s-item">HITS: <span id="hit-count">0</span></div>
+        <div class="s-item">QUERIES: <span id="query-count">0</span></div>
+        <div id="status-spacer"></div>
+        <div class="s-item">SYS: <span id="clock">--:--:--</span></div>
+        <div class="s-item">VER: <span>2.1.1</span></div>
+        <div class="s-item">STATUS: <span id="sys-status" class="c-success">ONLINE</span></div>
+        <div class="s-item" id="ext-ip-wrap">EXT IP: <span id="ext-ip">...</span></div>
+      </div>
 
-    <nav id="tabs">
-      <button class="tab active" data-tab="dns">DNS</button>
-      <button class="tab" data-tab="whois">WHOIS</button>
-      <button class="tab" data-tab="geo">GEO-IP</button>
-      <button class="tab" data-tab="ssl">SSL/CERT</button>
-      <button class="tab" data-tab="subdomains">SUBDOMAINS</button>
-      <button class="tab" data-tab="headers">HTTP HDR</button>
-      <button class="tab" data-tab="email">EMAIL SEC</button>
-      <button class="tab" data-tab="ports">PORTS</button>
-      <button class="tab" data-tab="fingerprint">FINGERPRINT</button>
-      <button class="tab" data-tab="threat">THREAT</button>
-      <button class="tab" data-tab="full">FULL SCAN</button>
-    </nav>
+      <div id="input-area">
+        <span class="prompt">root@netspecter:~$&nbsp;</span>
+        <input id="target-input" type="text" placeholder="enter target domain or IP..." autocomplete="off" spellcheck="false">
+        <button id="clear-btn" title="Clear output">CLR</button>
+        <button id="scan-btn" aria-label="Scan target">[ SCAN ]</button>
+      </div>
 
-    <div id="panel-wrap">
-      <div id="panel-title">
-        <span>OUTPUT :: <span id="active-module">DNS_ENUMERATION</span></span>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <button id="copy-btn" class="panel-btn" title="Copy output [C]">COPY</button>
-          <button id="export-btn" class="panel-btn" title="Export as TXT [E]">EXPORT</button>
-          <span id="scan-state">IDLE</span>
+      <nav id="tabs">
+        <button class="tab active" data-tab="dns">DNS</button>
+        <button class="tab" data-tab="whois">WHOIS</button>
+        <button class="tab" data-tab="geo">GEO-IP</button>
+        <button class="tab" data-tab="ssl">SSL/CERT</button>
+        <button class="tab" data-tab="subdomains">SUBDOMAINS</button>
+        <button class="tab" data-tab="headers">HTTP HDR</button>
+        <button class="tab" data-tab="email">EMAIL SEC</button>
+        <button class="tab" data-tab="ports">PORTS</button>
+        <button class="tab" data-tab="fingerprint">FINGERPRINT</button>
+        <button class="tab" data-tab="threat">THREAT</button>
+        <button class="tab" data-tab="full">FULL SCAN</button>
+      </nav>
+
+      <div id="panel-wrap">
+        <div id="panel-title">
+          <span>OUTPUT :: <span id="active-module">DNS_ENUMERATION</span></span>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <button id="copy-btn" class="panel-btn" title="Copy output [C]">COPY</button>
+            <button id="export-btn" class="panel-btn" title="Export as TXT [E]">EXPORT</button>
+            <span id="scan-state">IDLE</span>
+          </div>
+        </div>
+        <div id="progress-wrap" hidden>
+          <div id="progress-label">SCANNING...</div>
+          <div id="progress-track"><div id="progress-bar"></div></div>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div id="output">
+          <span class="out-line c-dim">// NetSpecter ready. Enter a target domain or IP and select a module.</span>
+          <span class="out-line c-dim">// Example: example.com | 8.8.8.8 | mail.google.com</span>
+          <span class="out-sep"></span>
+          <span class="out-line c-dim">// MODULES: DNS | WHOIS | GEO-IP | SSL/CERT | SUBDOMAINS | HTTP HDR | EMAIL SEC | PORTS | FINGERPRINT | THREAT | FULL SCAN</span>
+          <span class="out-sep"></span>
+          <span class="out-line"><span class="blink c-bright">_</span> AWAITING TARGET INPUT...</span>
         </div>
       </div>
-      <div id="progress-wrap" hidden>
-        <div id="progress-label">SCANNING...</div>
-        <div id="progress-track"><div id="progress-bar"></div></div>
-        <span id="progress-pct">0%</span>
-      </div>
-      <div id="output">
-        <span class="out-line c-dim">// NetSpecter ready. Enter a target domain or IP and select a module.</span>
-        <span class="out-line c-dim">// Example: example.com | 8.8.8.8 | mail.google.com</span>
-        <span class="out-sep"></span>
-        <span class="out-line c-dim">// MODULES: DNS | WHOIS | GEO-IP | SSL/CERT | SUBDOMAINS | HTTP HDR | EMAIL SEC | PORTS | FINGERPRINT | THREAT | FULL SCAN</span>
-        <span class="out-sep"></span>
-        <span class="out-line"><span class="blink c-bright">_</span> AWAITING TARGET INPUT...</span>
-      </div>
-    </div>
+
+    </main>
 
     <footer>
       <span>NetSpecter v2.1 :: PASSIVE INTELLIGENCE PLATFORM</span>
