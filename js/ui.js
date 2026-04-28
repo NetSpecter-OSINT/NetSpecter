@@ -154,9 +154,6 @@ export async function resolveExtIP() {
 
 // ---- Mode toggle (Hackerish / Fancypants) ----
 export function initModeToggle() {
-  const saved = localStorage.getItem('recon-mode');
-  if (saved !== 'dark') applyMode('light');
-
   document.querySelectorAll('.mode-seg').forEach(btn => {
     btn.addEventListener('click', () => {
       applyMode(btn.dataset.mode);

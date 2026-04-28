@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="green">
+<html lang="en" data-theme="green" data-mode="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,10 +42,10 @@
   <script>
     (function () {
       var t = localStorage.getItem('recon-theme') || 'green';
-      var m = localStorage.getItem('recon-mode');
+      var m = localStorage.getItem('recon-mode') || 'light';
       document.documentElement.setAttribute('data-theme', t);
-      if (m === 'light') document.documentElement.setAttribute('data-mode', 'light');}
-    )();
+      document.documentElement.setAttribute('data-mode', m);
+    })();
   </script>
   <link rel="stylesheet" href="./css/themes.css">
   <link rel="stylesheet" href="./css/style.css">
