@@ -92,46 +92,6 @@ body {
 }
 
 /* ============================================================
-   HEADER
-   ============================================================ */
-/*header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  flex-shrink: 0;
-}
-
-#ascii-logo {
-  font-family: var(--font-vt);
-  font-size: 7px;
-  line-height: 1.18;
-  color: var(--accent);
-  text-shadow: var(--accent-text-shadow);
-  white-space: pre;
-  transition: color 0.3s, text-shadow 0.3s;
-}
-
-#header-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-#header-meta {
-  text-align: right;
-  font-size: 11px;
-  color: var(--accent-dim);
-  line-height: 1.9;
-}
-
-#header-meta span {
-  color: var(--accent);
-}*/
-
-/* ============================================================
    NAV LOGO
    ============================================================ */
 #nav-logo {
@@ -271,26 +231,6 @@ body {
 #colour-dropdown .swatch.active {
   box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--swatch);
 }
-
-/* BG picker */
-#bg-dropdown #bg-btns {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-#bg-dropdown .bg-btn {
-  background: transparent;
-  border: 1px solid var(--accent-border);
-  color: var(--accent-dim);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  padding: 2px 8px;
-  cursor: pointer;
-  letter-spacing: 0.5px;
-  transition: all 0.15s;
-}
-#bg-dropdown .bg-btn:hover  { color: var(--accent); border-color: var(--accent); }
-#bg-dropdown .bg-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
 
 /* ============================================================
    DONATE BUTTON
@@ -924,21 +864,6 @@ footer {
   box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--swatch);
 }
 
-/* ---- Mobile menu bg buttons ---- */
-.mobile-bg-btns .bg-btn {
-  background: transparent;
-  border: 1px solid var(--accent-border);
-  color: var(--accent-dim);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  padding: 5px 10px;
-  cursor: pointer;
-  letter-spacing: 0.5px;
-  transition: all 0.15s;
-}
-.mobile-bg-btns .bg-btn:hover  { color: var(--accent); border-color: var(--accent); }
-.mobile-bg-btns .bg-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
-
 /* ============================================================
    RESPONSIVE
    ============================================================ */
@@ -955,17 +880,6 @@ footer {
 
   /* ---- STATUS BAR ---- */
   #status-spacer { display: none; }
-
-  /* ---- BG + COLOUR SWITCHERS ---- */
-  #bg-switcher,
-  #theme-switcher {
-    gap: 6px;
-  }
-
-  .bg-btn {
-    padding: 2px 5px;
-    font-size: 9px;
-  }
 
   /* ---- STATUS BAR ---- */
   #status-bar {

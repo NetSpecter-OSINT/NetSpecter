@@ -72,19 +72,6 @@ html[data-mode="light"] #mode-toggle {
   padding: 1px 8px;
 }
 
-/* ---- BG buttons in dropdown ---- */
-html[data-mode="light"] .bg-btn {
-  border-color: var(--accent-border);
-  color: var(--accent-dim);
-  border-radius: 4px;
-}
-html[data-mode="light"] .bg-btn:hover  { color: var(--accent); border-color: var(--accent); }
-html[data-mode="light"] .bg-btn.active {
-  background: var(--accent);
-  color: #ffffff;
-  border-color: var(--accent);
-}
-
 /* ---- Status bar ---- */
 html[data-mode="light"] #status-bar  { border-color: var(--accent-border); }
 html[data-mode="light"] .s-item      { border-color: var(--accent-border); color: var(--accent-dim); }
@@ -275,14 +262,6 @@ html[data-mode="light"] .mobile-row       { border-color: var(--accent-border); 
 html[data-mode="light"] .mobile-row-label { color: var(--accent-dim); }
 html[data-mode="light"] .mobile-swatches .swatch.active {
   box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--swatch);
-}
-html[data-mode="light"] .mobile-bg-btns .bg-btn {
-  border-radius: 4px;
-}
-html[data-mode="light"] .mobile-bg-btns .bg-btn.active {
-  background: var(--accent);
-  color: #ffffff;
-  border-color: var(--accent);
 }
 
 /* ---- Toggle pill in light mode ---- */

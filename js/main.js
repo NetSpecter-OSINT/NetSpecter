@@ -1,7 +1,6 @@
 // main.js - NetSpecter entry point
 // NOTE: type="module" scripts are already deferred - no DOMContentLoaded needed
 
-import { initBackground, setBg } from './background.js';
 import { state, resetCounters }  from './state.js';
 import { startClock, initTabs, initThemeSwitcher,
          setScanState, setTarget, setLastScan,
@@ -135,10 +134,5 @@ document.getElementById('target-input').addEventListener('keydown', e => {
 });
 
 initKeyboardShortcuts(runScan, handleClear);
-initBackground();
-
-document.querySelectorAll('.bg-btn').forEach(b => {
-  b.addEventListener('click', () => setBg(b.dataset.bg));
-});
 
 resolveExtIP();
