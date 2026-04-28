@@ -130,7 +130,10 @@ document.getElementById('export-btn').addEventListener('click', exportTXT);
 document.getElementById('copy-btn').addEventListener('click', copyOutput);
 
 document.getElementById('target-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') runScan();
+  if (e.key === 'Enter') {
+    e.target.blur();
+    runScan();
+  }
 });
 
 initKeyboardShortcuts(runScan, handleClear);

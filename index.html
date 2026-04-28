@@ -56,15 +56,11 @@
   <div id="overlay"></div>
   <canvas id="bg-canvas"></canvas>
   <div id="app">
-
     <h1 class="sr-only">NetSpecter — Free Browser-Based OSINT & Domain Recon Tool</h1>
-
     <nav id="top-nav">
       <span id="nav-logo">NetSpecter</span>
       <button id="hamburger" aria-label="Open menu">☰</button>
-
       <div id="top-nav-right">
-
         <div class="nav-picker" id="colour-picker">
           <button class="nav-picker-trigger" id="colour-trigger">
             <span class="nav-picker-dot"></span>
@@ -81,7 +77,6 @@
             </div>
           </div>
         </div>
-
         <a class="top-nav-link" href="https://netspecter-osint.github.io/documentation/" target="_blank" rel="noopener">DOCS</a>
         <div class="nav-picker" id="donate-picker">
           <button class="nav-picker-trigger donate-trigger" id="donate-trigger">DONATE</button>
@@ -92,17 +87,16 @@
           </div>
         </div>
         <div id="mode-toggle-wrap">
-          <button class="mode-seg active" data-mode="dark">HACKERISH</button>
+          <button class="mode-seg" data-mode="dark">HACKERISH</button>
           <button class="mode-seg"        data-mode="light">FANCYPANTS</button>
         </div>
-
       </div>
 
       <!-- Mobile menu -->
       <div id="mobile-menu">
         <div class="mobile-row">
           <div id="mobile-mode-toggle-wrap">
-            <button class="mode-seg active" data-mode="dark">HACKERISH</button>
+            <button class="mode-seg" data-mode="dark">HACKERISH</button>
             <button class="mode-seg"        data-mode="light">FANCYPANTS</button>
           </div>
         </div>
@@ -128,7 +122,6 @@
     </nav>
 
     <main>
-
       <div id="status-bar">
         <div class="s-item">TGT: <span id="current-target">NULL</span></div>
         <div class="s-item">LAST: <span id="last-scan">NONE</span></div>
@@ -140,14 +133,14 @@
         <div class="s-item">STATUS: <span id="sys-status" class="c-success">ONLINE</span></div>
         <div class="s-item" id="ext-ip-wrap">EXT IP: <span id="ext-ip">...</span></div>
       </div>
-
       <div id="input-area">
         <span class="prompt">root@netspecter:~$&nbsp;</span>
-        <input id="target-input" type="text" placeholder="enter target domain or IP..." autocomplete="off" spellcheck="false">
+        <input id="target-input" type="text" placeholder="enter target domain or IP..."
+               autocomplete="off" autocorrect="off" autocapitalize="none"
+               spellcheck="false" inputmode="url">
         <button id="clear-btn" title="Clear output">CLR</button>
         <button id="scan-btn" aria-label="Scan target">[ SCAN ]</button>
       </div>
-
       <nav id="tabs">
         <button class="tab active" data-tab="dns">DNS</button>
         <button class="tab" data-tab="whois">WHOIS</button>
@@ -161,7 +154,6 @@
         <button class="tab" data-tab="threat">THREAT</button>
         <button class="tab" data-tab="full">FULL SCAN</button>
       </nav>
-
       <div id="panel-wrap">
         <div id="panel-title">
           <span>OUTPUT :: <span id="active-module">DNS_ENUMERATION</span></span>
@@ -185,7 +177,6 @@
           <span class="out-line"><span class="blink c-bright">_</span> AWAITING TARGET INPUT...</span>
         </div>
       </div>
-
     </main>
 
     <footer>
@@ -193,7 +184,6 @@
       <span>PRESS <span style="color:var(--accent)">'?'</span> FOR SHORTCUTS</span>
       <span>USE RESPONSIBLY :: AUTHORISED TARGETS ONLY</span>
     </footer>
-
   </div>
 
   <script>

@@ -2,6 +2,14 @@
 
 const panel = () => document.getElementById('output');
 
+function scrollToBottomIfNear() {
+  const p = panel();
+  const distanceFromBottom = p.scrollHeight - p.clientHeight - p.scrollTop;
+  if (distanceFromBottom < 80) {
+    p.scrollTop = p.scrollHeight;
+  }
+}
+
 export function clearOutput() {
   panel().innerHTML = '';
 }
@@ -11,7 +19,7 @@ export function line(html, extraClass = '') {
   el.className = 'out-line' + (extraClass ? ' ' + extraClass : '');
   el.innerHTML = html;
   panel().appendChild(el);
-  panel().scrollTop = panel().scrollHeight;
+  scrollToBottomIfNear();
   return el;
 }
 
@@ -35,7 +43,7 @@ export function kv(key, val, valClass = '') {
     `<span class="out-key">${esc(key)}</span>` +
     `<span class="out-val ${valClass}">${val}</span>`;
   panel().appendChild(el);
-  panel().scrollTop = panel().scrollHeight;
+  scrollToBottomIfNear();
 }
 
 export function spacer() {
@@ -48,7 +56,7 @@ export function typeEffect(text, extraClass = '') {
     let i = 0;
     const iv = setInterval(() => {
       el.textContent = text.slice(0, i++);
-      panel().scrollTop = panel().scrollHeight;
+      scrollToBottomIfNear();
       if (i > text.length) {
         clearInterval(iv);
         el.classList.remove('typing');
