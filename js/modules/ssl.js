@@ -3,9 +3,7 @@ import { bumpQuery } from '../state.js';
 import { header, sep, kv, line, spacer, esc } from '../output.js';
 import { bumpHit } from '../state.js';
 
-const WORKER_URL    = 'https://netspecter-headers.shohen612.workers.dev';
-const MAX_ATTEMPTS  = 6;
-const POLL_INTERVAL = 10000;
+const WORKER_URL = 'https://netspecter-headers.shohen612.workers.dev';
 
 export async function runSSL(target) {
   header('SSL/TLS CERTIFICATES :: ' + target.toUpperCase());
@@ -47,14 +45,13 @@ export async function runSSL(target) {
         const badgeCls  = expired ? 'bad' : 'good';
         const badgeTxt  = expired ? 'EXPIRED' : 'VALID';
         const names     = (cert.dns_names || []).join(' | ');
-        const issuer    = cert.issuer_dn || cert.issuer?.friendly_name || cert.issuer?.organization || 'N/A';
 
         line(
           `<span class="c-dim">  [${String(i + 1).padStart(2, '0')}]</span> ` +
           `<span class="out-val c-hi">${esc(cert.dns_names?.[0] || 'N/A')}</span>` +
           `<span class="badge ${badgeCls}">${badgeTxt}</span>`
         );
-        kv('       Issuer', esc(issuer));
+        kv('       Revoked', cert.revoked ? 'YES' : 'NO', cert.revoked ? 'c-bad' : 'c-good');
         kv('       Valid',  `${notBefore} &rarr; ${notAfter}`,
           expired ? 'c-bad' : 'c-good');
         kv('       SANs',   esc(names.slice(0, 140)));
@@ -69,7 +66,9 @@ export async function runSSL(target) {
   // ---- Source 2: Live TLS analysis via SSL Labs ----
   sep();
   line('<span class="c-dim">Source [2/2]: Live TLS analysis (SSL Labs)...</span>');
-  line('<span class="c-dim">This may take 30-60 seconds for first-time scans.</span>');
+
+  const labsReportUrl =
+    `https://www.ssllabs.com/ssltest/analyze.html?d=${esc(target)}&hideResults=on`;
 
   try {
     bumpQuery();
@@ -78,35 +77,16 @@ export async function runSSL(target) {
     const workerUrl = `${WORKER_URL}/?ssllabs=${encodeURIComponent(target)}`;
     const kickRes   = await fetch(workerUrl);
     if (!kickRes.ok) throw new Error(`SSL Labs HTTP ${kickRes.status}`);
-    let data = await kickRes.json();
+    const data = await kickRes.json();
 
-    // Subsequent polls go direct to SSL Labs - no CORS issue on plain GET
-    const directUrl = `https://api.ssllabs.com/api/v3/analyze?host=${encodeURIComponent(target)}&fromCache=on`;
-
-    let attempts = 0;
-    while (
-      (data.status === 'IN_PROGRESS' || data.status === 'DNS') &&
-      attempts < MAX_ATTEMPTS
-    ) {
-      attempts++;
-      const remaining = MAX_ATTEMPTS - attempts;
-      line(
-        `<span class="c-dim">Scan in progress... retrying in 10s ` +
-        `(${remaining} attempt${remaining !== 1 ? 's' : ''} left)</span>`
-      );
-      await new Promise(r => setTimeout(r, POLL_INTERVAL));
-      const retryRes = await fetch(directUrl);
-      if (!retryRes.ok) throw new Error(`SSL Labs HTTP ${retryRes.status}`);
-      data = await retryRes.json();
-    }
-
-    // Timed out
+    // Still running or queued — send the user to SSL Labs directly
     if (data.status === 'IN_PROGRESS' || data.status === 'DNS') {
-      line('<span class="c-warn">SSL Labs scan still running after 60 seconds.</span>');
+      line('<span class="c-dim">Assessment in progress. Results are available for 24 hours once complete.</span>');
+      spacer();
       line(
-        `<span class="c-dim">View when ready: </span>` +
-        `<a href="https://www.ssllabs.com/ssltest/analyze.html?d=${esc(target)}" ` +
-        `target="_blank" rel="noopener" style="color:inherit">SSL Labs report</a>`
+        `<span class="c-dim">View live progress: </span>` +
+        `<a href="${labsReportUrl}" target="_blank" rel="noopener" style="color:inherit">` +
+        `Open SSL Labs report &rarr;</a>`
       );
       sep();
       return;
@@ -115,6 +95,10 @@ export async function runSSL(target) {
     // Error
     if (data.status === 'ERROR') {
       line(`<span class="c-warn">SSL Labs error: ${esc(data.statusMessage || 'Unknown')}</span>`);
+      line(
+        `<span class="c-dim">Try manually: </span>` +
+        `<a href="${labsReportUrl}" target="_blank" rel="noopener" style="color:inherit">SSL Labs report</a>`
+      );
       sep();
       return;
     }
@@ -128,9 +112,9 @@ export async function runSSL(target) {
       data.endpoints.forEach((ep, i) => {
         sep();
         line(`<span class="c-dim">  Endpoint [${i + 1}]</span>`);
-        kv('    IP',             esc(ep.ipAddress  || 'N/A'));
-        kv('    Grade',          esc(ep.grade      || 'N/A'), gradeClass(ep.grade));
-        kv('    Server Name',    esc(ep.serverName || 'N/A'));
+        kv('    IP',          esc(ep.ipAddress  || 'N/A'));
+        kv('    Grade',       esc(ep.grade      || 'N/A'), gradeClass(ep.grade));
+        kv('    Server Name', esc(ep.serverName || 'N/A'));
 
         const det = ep.details;
         if (det) {
@@ -142,20 +126,20 @@ export async function runSSL(target) {
             det.hstsPolicy?.status === 'present' ? 'PRESENT' : 'MISSING',
             det.hstsPolicy?.status === 'present' ? 'c-good' : 'c-warn');
           kv('    Heartbleed',
-            det.heartbleed  ? 'VULNERABLE' : 'SAFE',
-            det.heartbleed  ? 'c-bad' : 'c-good');
+            det.heartbleed ? 'VULNERABLE' : 'SAFE',
+            det.heartbleed ? 'c-bad'      : 'c-good');
           kv('    POODLE',
-            det.poodle      ? 'VULNERABLE' : 'SAFE',
-            det.poodle      ? 'c-bad' : 'c-good');
+            det.poodle     ? 'VULNERABLE' : 'SAFE',
+            det.poodle     ? 'c-bad'      : 'c-good');
           kv('    BEAST',
-            det.vulnBeast   ? 'VULNERABLE' : 'SAFE',
-            det.vulnBeast   ? 'c-bad' : 'c-good');
+            det.vulnBeast  ? 'VULNERABLE' : 'SAFE',
+            det.vulnBeast  ? 'c-bad'      : 'c-good');
 
           const cert = det.certChains?.[0]?.certs?.[0];
           if (cert) {
             sep();
-            kv('    Subject',      esc(cert.subject      || 'N/A'));
-            kv('    Issuer',       esc(cert.issuerLabel  || 'N/A'));
+            kv('    Subject',     esc(cert.subject     || 'N/A'));
+            kv('    Issuer',      esc(cert.issuerLabel || 'N/A'));
             kv('    Expires',
               cert.notAfter
                 ? new Date(cert.notAfter).toISOString().slice(0, 10)
@@ -176,8 +160,7 @@ export async function runSSL(target) {
 
       line(
         `<span class="c-dim">// Full report: </span>` +
-        `<a href="https://www.ssllabs.com/ssltest/analyze.html?d=${esc(target)}" ` +
-        `target="_blank" rel="noopener" style="color:inherit">SSL Labs</a>`
+        `<a href="${labsReportUrl}" target="_blank" rel="noopener" style="color:inherit">SSL Labs</a>`
       );
     }
 
@@ -185,8 +168,7 @@ export async function runSSL(target) {
     line(`<span class="c-warn">SSL Labs failed: ${esc(e.message)}</span>`);
     line(
       `<span class="c-dim">Manual check: </span>` +
-      `<a href="https://www.ssllabs.com/ssltest/analyze.html?d=${esc(target)}" ` +
-      `target="_blank" rel="noopener" style="color:inherit">SSL Labs report</a>`
+      `<a href="${labsReportUrl}" target="_blank" rel="noopener" style="color:inherit">SSL Labs report</a>`
     );
   }
 
