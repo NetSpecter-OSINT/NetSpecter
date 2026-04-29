@@ -10,6 +10,7 @@ const THREAT_LINKS = [
   ['URLScan.io',           d => `https://urlscan.io/search/#page.domain%3A${d}`],
   ['AlienVault OTX',       d => `https://otx.alienvault.com/indicator/domain/${d}`],
   ['IBM X-Force',          d => `https://exchange.xforce.ibmcloud.com/url/${d}`],
+  ['MXToolbox Blacklist',  d => `https://mxtoolbox.com/blacklists.aspx?hostname=${d}`],
   ['Google Safe Browsing', d => `https://transparencyreport.google.com/safe-browsing/search?url=${d}`],
   ['URLHaus',              d => `https://urlhaus.abuse.ch/browse.php?search=${d}`],
 ];
